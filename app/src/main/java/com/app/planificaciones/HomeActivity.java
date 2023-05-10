@@ -1,12 +1,15 @@
 package com.app.planificaciones;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -62,4 +65,48 @@ public class HomeActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+    /**
+     * Manejar el clikc del menu del toolbar, si no se valida, cuando se hace
+     * click en el menu de amburgueza del dwaer tambien se dispara el evento
+     * @param item The menu item that was selected.
+     *
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+//        Toast.makeText(getApplicationContext(), "saldos", Toast.LENGTH_SHORT).show();
+
+        if (item.getItemId() == R.id.action_new_course){
+
+            Toast.makeText(getApplicationContext(), "curso", Toast.LENGTH_SHORT).show();
+            return  true;
+
+        }
+        if (item.getItemId() == R.id.action_logout){
+
+            Toast.makeText(getApplicationContext(), "LogOut", Toast.LENGTH_SHORT).show();
+            return  true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /*
+
+    Manejar el click del menu lateral del drawer
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_item_1:
+                // Acción cuando se selecciona el item 1 del drawer
+                return true;
+            case R.id.nav_item_2:
+                // Acción cuando se selecciona el item 2 del drawer
+                return true;
+            default:
+                return false;
+        }
+    }*/
+
 }

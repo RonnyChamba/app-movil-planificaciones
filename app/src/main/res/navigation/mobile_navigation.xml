@@ -28,4 +28,11 @@
         android:name="com.app.planificaciones.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
+
+    <fragment
+        android:id="@+id/nav_planning"
+        android:name="com.app.planificaciones.ui.planification.PlanningFragment"
+        android:label="@string/menu_planning"
+        tools:layout="@layout/fragment_planning" />
 </navigation>
