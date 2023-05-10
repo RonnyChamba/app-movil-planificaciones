@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Planificaciones</string>
+
+    <string name="title_app">PLANIFICACIONES CURRICULARES</string>
+
+    <dimen name="size_titles">20sp</dimen>
+</resources>
