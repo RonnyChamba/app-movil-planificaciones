@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "854025901555",
+    "project_id": "app-planificaciones",
+    "storage_bucket": "app-planificaciones.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:854025901555:android:f40b2d16e20d4fee5e2e86",
+        "android_client_info": {
+          "package_name": "com.app.planificaciones"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "854025901555-hrlcp30ipee6a847ala8bmrongtt8ils.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwn7SB6cX4086YQJgdo2LvE7-OVSm8SIU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "854025901555-hrlcp30ipee6a847ala8bmrongtt8ils.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

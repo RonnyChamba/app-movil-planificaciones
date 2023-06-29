@@ -1,9 +1,11 @@
 package com.app.planificaciones;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -18,20 +20,31 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.planificaciones.databinding.ActivityHomeBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class HomeActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    // enlance de datos generado automaticamente por el view binding
+    // tiene el mismo nombre que el layout xml pero en camel case y con la palabra binding al final
     private ActivityHomeBinding binding;
+
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // inflayar el layout xml
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
+
+        // obtener el root del layout xml
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarHome.toolbar);
+
+        verifySignIn();
         binding.appBarHome.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,6 +53,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         DrawerLayout drawer = binding.drawerLayout;
+
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -50,6 +64,36 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        setValueDefault();
+    }
+
+    private void verifySignIn() {
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        // verificar si el usuario esta logueado
+        if (user == null) {
+            // si no esta logueado, redirigir al login
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+    }
+
+    private void setValueDefault() {
+
+        // Acceder al layout nav_header_home
+        View navHeader = binding.navView.getHeaderView(0);
+
+        // Acceder a los widgets dentro de nav_header_home
+        TextView fullNameUser = navHeader.findViewById(R.id.textViewFullName);
+        TextView emailUser = navHeader.findViewById(R.id.textViewEmail);
+
+        fullNameUser.setText(user.getDisplayName());
+        emailUser.setText(user.getEmail());
+
     }
 
     @Override
@@ -69,8 +113,8 @@ public class HomeActivity extends AppCompatActivity {
     /**
      * Manejar el clikc del menu del toolbar, si no se valida, cuando se hace
      * click en el menu de amburgueza del dwaer tambien se dispara el evento
-     * @param item The menu item that was selected.
      *
+     * @param item The menu item that was selected.
      * @return
      */
     @Override
@@ -78,16 +122,16 @@ public class HomeActivity extends AppCompatActivity {
 
 //        Toast.makeText(getApplicationContext(), "saldos", Toast.LENGTH_SHORT).show();
 
-        if (item.getItemId() == R.id.action_new_course){
+        if (item.getItemId() == R.id.action_new_course) {
 
             Toast.makeText(getApplicationContext(), "curso", Toast.LENGTH_SHORT).show();
-            return  true;
+            return true;
 
         }
-        if (item.getItemId() == R.id.action_logout){
+        if (item.getItemId() == R.id.action_logout) {
 
             Toast.makeText(getApplicationContext(), "LogOut", Toast.LENGTH_SHORT).show();
-            return  true;
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

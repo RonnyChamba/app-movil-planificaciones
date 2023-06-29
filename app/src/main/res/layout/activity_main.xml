@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
-    android:weightSum="3"
-    tools:context=".MainActivity">
+    android:weightSum="3">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,6 +51,7 @@
             android:layout_height="wrap_content"
             android:autofillHints="Ingrese su email"
             android:hint="Ingrese su email"
+            android:text="e1723774640@live.uleam.edu.ec"
             android:inputType="textEmailAddress"
             android:padding="10dp"
 
@@ -62,6 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:text="123456"
             android:autofillHints="Ingrese su contraseña"
             android:hint="Ingrese su contraseña"
             android:inputType="textPassword"

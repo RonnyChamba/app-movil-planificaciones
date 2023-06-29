@@ -7,6 +7,15 @@
     android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
 
+    <Spinner
+        android:id="@+id/spCourses"
+        android:layout_width="match_parent"
+        android:layout_height="30sp"
+        android:padding="5dp"
+        android:layout_marginBottom="10dp"
+
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleView"
         android:layout_width="match_parent"

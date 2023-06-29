@@ -5,29 +5,29 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.planificaciones.R;
 import com.app.planificaciones.models.Course;
+import com.app.planificaciones.models.Planification;
 
 import java.util.List;
-import java.util.Objects;
 
-public class AdapterCourse extends RecyclerView.Adapter<AdapterCourse.ViewHolder> implements
+public class AdapterPlanning extends RecyclerView.Adapter<AdapterPlanning.ViewHolder> implements
 
         View.OnClickListener {
 
-    private List<Course> courses;
+    private List<Planification> courses;
     private LayoutInflater inflater;
     private View.OnClickListener listener;
 
-    public AdapterCourse(
+    public AdapterPlanning(
             Context context,
-            List<Course> courses) {
+            List<Planification> courses) {
 
         this.inflater = LayoutInflater.from(context);
         this.courses = courses;
@@ -38,16 +38,17 @@ public class AdapterCourse extends RecyclerView.Adapter<AdapterCourse.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = inflater.inflate(R.layout.list_item_course, parent, false);
+        View view = inflater.inflate(R.layout.list_item_planning, parent, false);
         view.setOnClickListener(this);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Course itemCourse = courses.get(position);
+        Planification itemCourse = courses.get(position);
 
         holder.setData(itemCourse);
+
     }
 
     @Override
@@ -76,31 +77,47 @@ public class AdapterCourse extends RecyclerView.Adapter<AdapterCourse.ViewHolder
         private final TextView textTitle;
         private final TextView textDescription;
 
+        private final Button btnReview;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textTitle = itemView.findViewById(R.id.item_title);
             textDescription = itemView.findViewById(R.id.item_description);
+            btnReview = itemView.findViewById(R.id.btnReview);
+
+
+            // here the listener of the button that is in the list item is configured
+            btnReview.setOnClickListener(v -> {
+                if (buttonClickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        Planification planification = courses.get(position);
+                        buttonClickListener.onButtonClicked(planification);
+                    }
+                }
+            });
+
         }
 
-        public void setData(Course course) {
-            textTitle.setText(String.format("%s - %s", course.getName(), course.getParallel()));
+        public void setData(Planification course) {
 
-            if (course.getTutor() != null) {
-
-                Object fullName = course.getTutor().get("fullName");
-                if (fullName != null && !fullName.toString().isEmpty()) {
-                    textDescription.setText(fullName.toString());
-                } else {
-                    textDescription.setText("No asignado");
-                }
-            } else {
-                Log.i("TutorNoExisteParaCurso", course.getTutor() + "");
-                textDescription.setText("No asignado");
-            }
+            textTitle.setText(course.getTitle());
+            textDescription.setText(course.getDateCreated());
         }
 
 
     }
+
+    public void setOnButtonClickListener(OnButtonClickListener listener) {
+        this.buttonClickListener = listener;
+    }
+
+    public interface OnButtonClickListener {
+        void onButtonClicked(Planification planification);
+    }
+
+    private OnButtonClickListener buttonClickListener;
+
 
 }

@@ -1,17 +1,48 @@
 package com.app.planificaciones.models;
 
-public class Course {
+import java.io.Serializable;
+import java.util.Map;
+
+public class Course implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String uid;
     private String name;
     private String parallel;
     private String description;
+
+    private Map<String, Object> tutor;
     private Teacher teacher;
 
-    public Course(String name, String parallel, String description) {
+    private String periodo;
+
+
+    public Course() {
+    }
+
+    public Course(String name, String parallel, String description, String periodo, Map<String, Object> tutor) {
         this.name = name;
         this.parallel = parallel;
         this.description = description;
+        this.periodo = periodo;
+        this.tutor = tutor;
+    }
+
+    public Map<String, Object> getTutor() {
+        return tutor;
+    }
+
+    public void setTutor(Map<String, Object> tutor) {
+        this.tutor = tutor;
+    }
+
+    public String getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(String periodo) {
+        this.periodo = periodo;
     }
 
     public String getUid() {
