@@ -35,4 +35,17 @@
         android:name="com.app.planificaciones.ui.planification.PlanningFragment"
         android:label="@string/menu_planning"
         tools:layout="@layout/fragment_planning" />
+
+    <fragment
+        android:id="@+id/nav_review_planning"
+        android:name="com.app.planificaciones.ui.reviewplanification.ReviewPlanification"
+        android:label="@string/menu_planning"
+        tools:layout="@layout/fragment_review_planification" />
+
+    <!-- the value for label it is change from code -->
+    <fragment
+        android:id="@+id/nav_review_detail_planning"
+        android:name="com.app.planificaciones.ui.reviewdetails.ReviewDetailPlanification"
+        android:label="@string/menu_planning"
+        tools:layout="@layout/fragment_review_detail_planification" />
 </navigation>

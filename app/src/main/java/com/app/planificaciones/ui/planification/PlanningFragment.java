@@ -13,8 +13,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -30,6 +33,7 @@ import com.app.planificaciones.databinding.FragmentPlanningBinding;
 import com.app.planificaciones.models.Course;
 import com.app.planificaciones.models.Planification;
 import com.app.planificaciones.models.Trimestre;
+import com.app.planificaciones.ui.modal.ModalFragmentReviewPlanification;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -39,7 +43,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 
 public class PlanningFragment extends Fragment {
 
@@ -228,7 +232,14 @@ public class PlanningFragment extends Fragment {
             // Puedes acceder a los datos del objeto "planification" y realizar la acción deseada
 
 
-            showConfirmationDialog();
+            // Crear un Bundle para pasar el curso como argumento
+            Bundle bundle = new Bundle();
+
+            // Pasar el objeto como argumento
+            bundle.putSerializable("planification", planification);
+
+
+            navController.navigate(R.id.nav_review_planning, bundle);
 
 
         });
@@ -236,7 +247,53 @@ public class PlanningFragment extends Fragment {
 
     }
 
+    public AlertDialog createLoginDialogo() {
+
+
+//        Button signup = (Button) v.findViewById(R.id.crear_boton);
+//        Button signin = (Button) v.findViewById(R.id.entrar_boton);
+//
+//        signup.setOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        // Crear Cuenta...
+//                        dismiss();
+//                    }
+//                }
+//        );
+
+//        signin.setOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        // Loguear...
+//                        dismiss();
+//                    }
+//                }
+//
+//        );
+
+//        return builder.create();
+
+        return null;
+    }
+
     private void showConfirmationDialog() {
+
+
+        //modalFragment.show(getChildFragmentManager(), "modal");
+
+//        FragmentManager fragmentManager = getChildFragmentManager();
+//        ModalFragmentReviewPlanification modalFragment = new ModalFragmentReviewPlanification();
+//
+//        modalFragment.show(fragmentManager, "modal");
+
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//        transaction.add(android.R.id.content, modalFragment, "FullScreenFragment")
+//                .commit();
+//        Toast.makeText(getContext(), "Eliminar", Toast.LENGTH_SHORT).show();
 
 
 //                .positiveButton(null, "Eliminar", materialDialog -> {
