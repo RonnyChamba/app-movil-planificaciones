@@ -208,8 +208,6 @@ public class HomeFragment extends Fragment {
             navController.navigate(R.id.nav_planning, bundle);
 
         });
-
-
     }
 
     @Override

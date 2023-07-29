@@ -15,7 +15,7 @@ public class Teacher implements Serializable {
     private String dni;
     private String lastName;
     private String rol;
-    private String status;
+    private Boolean status;
     private List<String> titles;
     private List<String> courses;
     private List<Course> coursesList;
@@ -23,7 +23,7 @@ public class Teacher implements Serializable {
     public Teacher() {
     }
 
-    public Teacher(String uid, String displayName, String email, String photoUrl, String phoneNumber, String dni, String lastName, String rol, String status, List<String> titles, List<String> courses) {
+    public Teacher(String uid, String displayName, String email, String photoUrl, String phoneNumber, String dni, String lastName, String rol, Boolean status, List<String> titles, List<String> courses) {
         this.uid = uid;
         this.displayName = displayName;
         this.email = email;
@@ -101,11 +101,11 @@ public class Teacher implements Serializable {
         this.rol = rol;
     }
 
-    public String getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 
