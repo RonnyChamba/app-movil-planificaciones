@@ -17,6 +17,7 @@
     <string name="menu_profile">Perfil</string>
     <string name="menu_gallery">Docentes</string>
     <string name="menu_slideshow">Información</string>
+    <string name="menu_logout">Salir</string>
     <string name="menu_planning">Planificación</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

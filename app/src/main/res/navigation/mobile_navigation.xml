@@ -42,6 +42,13 @@
         android:label="@string/menu_planning"
         tools:layout="@layout/fragment_review_planification" />
 
+
+    <fragment
+        android:id="@+id/nav_form_planning"
+        android:name="com.app.planificaciones.ui.formplanification.PlanningFormFragment"
+        android:label="@string/menu_planning"
+        tools:layout="@layout/fragment_form_plani" />
+
     <!-- the value for label it is change from code -->
     <fragment
         android:id="@+id/nav_review_detail_planning"

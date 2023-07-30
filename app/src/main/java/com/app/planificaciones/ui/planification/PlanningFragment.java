@@ -3,10 +3,14 @@ package com.app.planificaciones.ui.planification;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -45,7 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PlanningFragment extends Fragment {
+public class PlanningFragment extends Fragment implements View.OnClickListener {
 
     private FragmentPlanningBinding binding;
 
@@ -63,6 +67,11 @@ public class PlanningFragment extends Fragment {
 
     private List<Planification> planifications = new ArrayList<>();
 
+
+    private Trimestre trimestreCurrent;
+
+    private Course courseCurrent;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         PlanningViewModel planningViewModel =
@@ -70,6 +79,7 @@ public class PlanningFragment extends Fragment {
 
         binding = FragmentPlanningBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        setHasOptionsMenu(true);
 
         setBindingWidgets();
 
@@ -87,14 +97,14 @@ public class PlanningFragment extends Fragment {
         Bundle arguments = getArguments();
         if (arguments != null && arguments.containsKey("course")) {
 
-            Course course = (Course) arguments.getSerializable("course");
-            if (course != null) {
+            courseCurrent = (Course) arguments.getSerializable("course");
+            if (courseCurrent != null) {
 
                 // set title for the action bar dynamically
                 ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
                 if (actionBar != null) {
-                    actionBar.setTitle(String.format("%s %s", course.getName(), course.getParallel()));
-                    loadTrimestreToCurrentCourse(course);
+                    actionBar.setTitle(String.format("%s %s", courseCurrent.getName(), courseCurrent.getParallel()));
+                    loadTrimestreToCurrentCourse();
 
                 }
             }
@@ -113,11 +123,11 @@ public class PlanningFragment extends Fragment {
         recyclerView = binding.recycleViewPlanification;
     }
 
-    private void loadTrimestreToCurrentCourse(Course course) {
+    private void loadTrimestreToCurrentCourse() {
 
         List<Trimestre> listTrimestres = new ArrayList<>();
 
-        db.collection(COLLECTION_NAME).whereEqualTo("course", course.getUid()).orderBy("timestamp", Query.Direction.ASCENDING).get().addOnSuccessListener(queryDocumentSnapshots -> {
+        db.collection(COLLECTION_NAME).whereEqualTo("course", courseCurrent.getUid()).orderBy("timestamp", Query.Direction.ASCENDING).get().addOnSuccessListener(queryDocumentSnapshots -> {
 
             for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
@@ -135,13 +145,13 @@ public class PlanningFragment extends Fragment {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                    Trimestre itemTrimestre = (Trimestre) parent.getItemAtPosition(position);
+                    trimestreCurrent = (Trimestre) parent.getItemAtPosition(position);
                     // Toast.makeText(getContext(), itemTrimestre.getTitle(), Toast.LENGTH_SHORT).show();
                     planifications.clear();
-                    loadPlaningByTrimestreSelected(itemTrimestre);
+                    loadPlaningByTrimestreSelected();
 
 
-                    Log.i("Trimestre SELECCIONADO", itemTrimestre.getUid() + "");
+                    Log.i("Trimestre SELECCIONADO", trimestreCurrent.getUid() + "");
                 }
 
                 @Override
@@ -153,11 +163,11 @@ public class PlanningFragment extends Fragment {
     }
 
 
-    private void loadPlaningByTrimestreSelected(Trimestre trimestre) {
+    private void loadPlaningByTrimestreSelected() {
 
         final String COLLECTION_NAME_PLANI = "planifications";
 
-        db.collection(COLLECTION_NAME_PLANI).whereEqualTo("week", trimestre.getUid()).get().addOnCompleteListener(task -> {
+        db.collection(COLLECTION_NAME_PLANI).whereEqualTo("week", trimestreCurrent.getUid()).orderBy("timestamp", Query.Direction.DESCENDING).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 QuerySnapshot querySnapshot = task.getResult();
                 if (querySnapshot != null) {
@@ -243,80 +253,65 @@ public class PlanningFragment extends Fragment {
 
 
         });
-
-
     }
 
-    public AlertDialog createLoginDialogo() {
+    /**
+     * Metodo que se ejecuta cuando se crea el menu de opciones para volver a cargar
+     * el menu y hacerlo dinamico
+     *
+     * @param menu The options menu as last shown or first initialized by
+     *             onCreateOptionsMenu().
+     */
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        menu.clear();
 
+        getActivity().getMenuInflater().inflate(R.menu.planifi, menu);
 
-//        Button signup = (Button) v.findViewById(R.id.crear_boton);
-//        Button signin = (Button) v.findViewById(R.id.entrar_boton);
-//
-//        signup.setOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        // Crear Cuenta...
-//                        dismiss();
-//                    }
-//                }
-//        );
-
-//        signin.setOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        // Loguear...
-//                        dismiss();
-//                    }
-//                }
-//
-//        );
-
-//        return builder.create();
-
-        return null;
+        super.onPrepareOptionsMenu(menu);
     }
 
-    private void showConfirmationDialog() {
-
-
-        //modalFragment.show(getChildFragmentManager(), "modal");
-
-//        FragmentManager fragmentManager = getChildFragmentManager();
-//        ModalFragmentReviewPlanification modalFragment = new ModalFragmentReviewPlanification();
+//    @Override
+//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
 //
-//        modalFragment.show(fragmentManager, "modal");
-
-//        FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//        transaction.add(android.R.id.content, modalFragment, "FullScreenFragment")
-//                .commit();
-//        Toast.makeText(getContext(), "Eliminar", Toast.LENGTH_SHORT).show();
+//        getActivity().getMenuInflater().inflate(R.menu.planifi, menu);
+//
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
 
 
-//                .positiveButton(null, "Eliminar", materialDialog -> {
-//
-//                    // Aquí se ejecutará el evento cuando se presione el botón positivo
-//                    // Puedes acceder a los datos del objeto "planification" y realizar la acción deseada
-//
-//                    Toast.makeText(getContext(), "Eliminar", Toast.LENGTH_SHORT).show();
-//                    return null;
-//                })
-//                .negativeButton(null, "Cancelar", materialDialog -> {
-//
-//                    // Aquí se ejecutará el evento cuando se presione el botón negativo
-//                    // Puedes acceder a los datos del objeto "planification" y realizar la acción deseada
-//
-//                    Toast.makeText(getContext(), "Cancelar", Toast.LENGTH_SHORT).show();
-//                    return null;
-//                });
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+
+        if (item.getItemId() == R.id.action_new_planning) {
+
+            clickNewPlani();
+            return true;
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+
+
+    }
+
+    private void clickNewPlani() {
+
+        //Crear un Bundle para pasar el curso y el trimestre como argumento
+        Bundle bundle = new Bundle();
+
+        // Pasar el objeto como argumento
+        bundle.putSerializable("course", courseCurrent);
+        bundle.putSerializable("trimestre", trimestreCurrent);
+        navController.navigate(R.id.nav_form_planning, bundle);
     }
 }

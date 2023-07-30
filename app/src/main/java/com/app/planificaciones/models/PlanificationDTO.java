@@ -1,40 +1,30 @@
 package com.app.planificaciones.models;
 
-
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Esta clase tiene los campos de la coleccio planifcacion pero ademas otro campos
+ * Esta clase tiene exactamente los mismo campos que el documento de la colección "planification" de Firebase,
+ * cuando desee guardar un documento en la colección "planification" de Firebase, debe crear un objeto de esta clase
  */
-public class Planification implements Serializable {
+public class PlanificationDTO implements Serializable {
 
-
-    private String uid;
     private String dateCreated;
     private String details;
     private boolean status;
     private boolean deleted;
-
-    private String timestampDate;
+    private Long timestamp;
     private String title;
     private String week;
 
-    private List<Map<String, Object>> detail_planification;
+    private List<Map<String, Object>> details_planification = new ArrayList<>();
 
-    private List<Map<String, Object>> resources;
+    private List<Map<String, Object>> resources = new ArrayList<>();
 
-    public Planification() {
+    public PlanificationDTO() {
 
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
     }
 
     public String getDateCreated() {
@@ -69,13 +59,12 @@ public class Planification implements Serializable {
         this.deleted = deleted;
     }
 
-
-    public String getTimestampDate() {
-        return timestampDate;
+    public Long getTimestamp() {
+        return timestamp;
     }
 
-    public void setTimestampDate(String timestampDate) {
-        this.timestampDate = timestampDate;
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getTitle() {
@@ -94,12 +83,12 @@ public class Planification implements Serializable {
         this.week = week;
     }
 
-    public List<Map<String, Object>> getDetail_planification() {
-        return detail_planification;
+    public List<Map<String, Object>> getDetails_planification() {
+        return details_planification;
     }
 
-    public void setDetail_planification(List<Map<String, Object>> detail_planification) {
-        this.detail_planification = detail_planification;
+    public void setDetails_planification(List<Map<String, Object>> details_planification) {
+        this.details_planification = details_planification;
     }
 
     public List<Map<String, Object>> getResources() {

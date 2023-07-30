@@ -97,11 +97,27 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        menu.clear();
+
+        if (user != null) {
+            getMenuInflater().inflate(R.menu.home, menu);
+        } else {
+            //getMenuInflater().inflate(R.menu.home_not_logged, menu);
+        }
+
+
+        return super.onPrepareOptionsMenu(menu);
+
     }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.home, menu);
+//        return true;
+//    }
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -124,7 +140,7 @@ public class HomeActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.action_new_course) {
 
-            Toast.makeText(getApplicationContext(), "curso", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "curso home", Toast.LENGTH_SHORT).show();
             return true;
 
         }
@@ -133,6 +149,7 @@ public class HomeActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "LogOut", Toast.LENGTH_SHORT).show();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
