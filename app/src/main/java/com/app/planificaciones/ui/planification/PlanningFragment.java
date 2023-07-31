@@ -38,6 +38,7 @@ import com.app.planificaciones.models.Course;
 import com.app.planificaciones.models.Planification;
 import com.app.planificaciones.models.Trimestre;
 import com.app.planificaciones.ui.modal.ModalFragmentReviewPlanification;
+import com.app.planificaciones.util.ConstantApp;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -72,6 +73,8 @@ public class PlanningFragment extends Fragment implements View.OnClickListener {
 
     private Course courseCurrent;
 
+    private boolean isAdmin = false;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         PlanningViewModel planningViewModel =
@@ -86,8 +89,6 @@ public class PlanningFragment extends Fragment implements View.OnClickListener {
         db = FirebaseFirestore.getInstance();
         setTitleFragment();
 
-        // final TextView textView = binding.textPlanning;
-        //planningViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
@@ -110,6 +111,7 @@ public class PlanningFragment extends Fragment implements View.OnClickListener {
             }
         }
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -192,11 +194,14 @@ public class PlanningFragment extends Fragment implements View.OnClickListener {
 
                     populatePlaning();
 
-                    Toast.makeText(getContext(), "Planificacion size: " + planifications.size(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Planificacion size: " + planifications.size(), Toast.LENGTH_SHORT).show();
                     Log.i("Size planning", planifications.size() + "");
 
-                } else
-                    Toast.makeText(getContext(), "No hay planificaciones para la semana seleccionado", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    // Toast.makeText(getContext(), "No hay planificaciones para la semana seleccionado", Toast.LENGTH_SHORT).show();
+                }
+
             } else {
                 // Maneja el error
                 Exception exception = task.getException();
@@ -268,17 +273,17 @@ public class PlanningFragment extends Fragment implements View.OnClickListener {
 
         getActivity().getMenuInflater().inflate(R.menu.planifi, menu);
 
+        MenuItem galleryItem = menu.findItem(R.id.action_new_planning);
+
+
+        if (ConstantApp.isAdmin) {
+            galleryItem.setVisible(true);
+        } else {
+            galleryItem.setVisible(false);
+        }
+
         super.onPrepareOptionsMenu(menu);
     }
-
-//    @Override
-//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-//
-//        getActivity().getMenuInflater().inflate(R.menu.planifi, menu);
-//
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
-
 
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 

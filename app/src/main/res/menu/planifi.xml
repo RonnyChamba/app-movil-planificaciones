@@ -5,6 +5,7 @@
         android:id="@+id/action_new_planning"
         android:orderInCategory="100"
         android:title="Nueva Planificación"
+        android:visible="false"
         app:showAsAction="never" />
 
     <item

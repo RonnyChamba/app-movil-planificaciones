@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
@@ -42,6 +44,7 @@ import com.app.planificaciones.models.Course;
 import com.app.planificaciones.models.Planification;
 import com.app.planificaciones.models.PlanificationDTO;
 import com.app.planificaciones.models.Trimestre;
+import com.app.planificaciones.util.ConstantApp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -92,6 +95,8 @@ public class PlanningFormFragment extends Fragment implements View.OnClickListen
 
         binding = FragmentFormPlaniBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        setHasOptionsMenu(true);
 
         db = FirebaseFirestore.getInstance();
         initBinding();
@@ -335,6 +340,25 @@ public class PlanningFormFragment extends Fragment implements View.OnClickListen
                     // Ocurrió un error al guardar el objeto en Firestore
                     Toast.makeText(getContext(), "Error al guardar referencia en Firestore: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    /**
+     * Metodo que se ejecuta cuando se crea el menu de opciones para volver a cargar
+     * el menu y hacerlo dinamico
+     *
+     * @param menu The options menu as last shown or first initialized by
+     *             onCreateOptionsMenu().
+     */
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        menu.clear();
+
+        getActivity().getMenuInflater().inflate(R.menu.planifi, menu);
+
+        MenuItem galleryItem = menu.findItem(R.id.action_new_planning);
+        galleryItem.setVisible(false);
+
+        super.onPrepareOptionsMenu(menu);
     }
 
 }

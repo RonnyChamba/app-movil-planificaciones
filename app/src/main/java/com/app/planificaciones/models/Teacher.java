@@ -136,6 +136,12 @@ public class Teacher implements Serializable {
     @Override
     public String toString() {
 
+        // Esto es para que en el spinner se muestre el nombre y apellido del docente, si
+        // se crea  una instancia de Teacher con el constructor vacio, entonces el nombre
+        if (this.displayName == null) {
+            return "Seleccione un docente";
+        }
+
         return this.displayName + " " + this.lastName;
     }
 }

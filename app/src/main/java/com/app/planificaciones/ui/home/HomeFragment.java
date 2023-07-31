@@ -24,6 +24,7 @@ import com.app.planificaciones.adapters.AdapterCourse;
 import com.app.planificaciones.databinding.FragmentHomeBinding;
 import com.app.planificaciones.models.Course;
 import com.app.planificaciones.models.Periodo;
+import com.app.planificaciones.util.ConstantApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,6 +34,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
@@ -97,6 +99,9 @@ public class HomeFragment extends Fragment {
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                     Periodo periodo = (Periodo) parent.getItemAtPosition(position);
+
+                    ConstantApp.periodo = periodo;
+
                     Log.i("PERIODO SELECCIONADO", periodo.getUid() + "");
                     courses.clear();
                     loadCourses(periodo);

@@ -70,9 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void findWidgets() {
 
-        /*btnSigIn = findViewById(R.id.btnSigIn);
-        txtEmail = findViewById(R.id.txtEmail);
-        txtPassword = findViewById(R.id.txtPassword);*/
         btnSigIn = binding.btnSigIn;
         txtEmail = binding.txtEmail;
         txtPassword = binding.txtPassword;
@@ -96,8 +93,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String email = txtEmail.getText().toString();
         String password = txtPassword.getText().toString();
 
-        if (email.isBlank() || password.isBlank()) {
-            Toast.makeText(this, "Todos los campos son requeridos", Toast.LENGTH_SHORT).show();
+        if (email.isBlank()) {
+            txtEmail.setError("El email es requerido");
+            return;
+        }
+        if (password.isBlank()) {
+            txtPassword.setError("La contraseña es requerido");
             return;
         }
 
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.d("SignIn", "signInWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
 
-                         final String displayName = user == null ? "" : user.getDisplayName();
+                        final String displayName = user == null ? "" : user.getDisplayName();
                         //Toast.makeText(getBaseContext(), "Bienvenido " + displayName, Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(this, HomeActivity.class);

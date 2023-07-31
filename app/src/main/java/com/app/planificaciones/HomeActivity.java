@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.planificaciones.models.Teacher;
+import com.app.planificaciones.util.ConstantApp;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -22,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.app.planificaciones.databinding.ActivityHomeBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -30,7 +33,17 @@ public class HomeActivity extends AppCompatActivity {
     // tiene el mismo nombre que el layout xml pero en camel case y con la palabra binding al final
     private ActivityHomeBinding binding;
 
+    private static final String COLLECTION_NAME = "teachers";
+
     private FirebaseUser user;
+
+    private boolean isAdmin = false;
+
+    private FirebaseFirestore db = null;
+
+    private NavigationView navigationView;
+
+    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +57,8 @@ public class HomeActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarHome.toolbar);
 
+        db = FirebaseFirestore.getInstance();
+
         verifySignIn();
         binding.appBarHome.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,32 +69,79 @@ public class HomeActivity extends AppCompatActivity {
         });
         DrawerLayout drawer = binding.drawerLayout;
 
-        NavigationView navigationView = binding.navView;
+        navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_profile)
                 .setOpenableLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
+
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
         setValueDefault();
     }
 
+
+    /**
+     * Metodo para verificar si el usuario esta logueado
+     */
     private void verifySignIn() {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         // verificar si el usuario esta logueado
-        if (user == null) {
+        if (user != null) {
+
+            String uidUser = user.getUid();
+
+//            Toast.makeText(this, "email:" + uidUser, Toast.LENGTH_SHORT).show();
+
+            db.collection(COLLECTION_NAME).document(uidUser).get().addOnSuccessListener(
+                    documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            Teacher teacher = documentSnapshot.toObject(Teacher.class);
+                            if (teacher != null) {
+                                isAdmin = teacher.getRol() != null && teacher.getRol().equals("ADMIN");
+
+                                ConstantApp.isAdmin = isAdmin;
+                                hideOrShowMenuOptions(navigationView.getMenu());
+                            } else {
+                                Toast.makeText(this, "No se pudo obtener el rol del usuario", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    }
+            );
+        } else {
+
             // si no esta logueado, redirigir al login
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
-        }
 
+        }
+    }
+
+    /**
+     * Metodo para mostrar  u ocultar items en el navigation drawer
+     *
+     * @param menu
+     */
+    private void hideOrShowMenuOptions(Menu menu) {
+        MenuItem galleryItem = menu.findItem(R.id.nav_gallery);
+
+
+        if (!isAdmin) {
+            galleryItem.setVisible(false);
+
+        } else {
+            galleryItem.setVisible(true);
+        }
     }
 
     private void setValueDefault() {
@@ -102,9 +164,19 @@ public class HomeActivity extends AppCompatActivity {
         menu.clear();
 
         if (user != null) {
+            // inflar el menu
             getMenuInflater().inflate(R.menu.home, menu);
-        } else {
-            //getMenuInflater().inflate(R.menu.home_not_logged, menu);
+
+
+            MenuItem galleryItem = menu.findItem(R.id.action_new_course);
+
+            // si no es admin, ocultar el item de nuevo curso
+            if (!isAdmin) {
+                galleryItem.setVisible(false);
+
+            } else {
+                galleryItem.setVisible(true);
+            }
         }
 
 
@@ -139,14 +211,24 @@ public class HomeActivity extends AppCompatActivity {
 //        Toast.makeText(getApplicationContext(), "saldos", Toast.LENGTH_SHORT).show();
 
         if (item.getItemId() == R.id.action_new_course) {
-
-            Toast.makeText(getApplicationContext(), "curso home", Toast.LENGTH_SHORT).show();
+            navController.navigate(R.id.nav_form_course);
             return true;
 
         }
         if (item.getItemId() == R.id.action_logout) {
 
-            Toast.makeText(getApplicationContext(), "LogOut", Toast.LENGTH_SHORT).show();
+            // cerrar sesion
+
+            FirebaseAuth.getInstance().signOut();
+            // redirigir al login
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+
+
+//            Toast.makeText(getApplicationContext(), "LogOut", Toast.LENGTH_SHORT).show();
+
+
             return true;
         }
 
