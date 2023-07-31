@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:autofillHints="Ingrese su email"
             android:hint="Ingrese su email"
-            android:text="e1723774640@live.uleam.edu.ec"
+            android:text="e1718760190@live.uleam.edu.ec"
             android:inputType="textEmailAddress"
             android:padding="10dp"
 

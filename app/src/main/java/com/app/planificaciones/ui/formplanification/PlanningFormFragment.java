@@ -215,8 +215,37 @@ public class PlanningFormFragment extends Fragment implements View.OnClickListen
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(getContext(), "Planificación guardada", Toast.LENGTH_SHORT).show();
 
-                    //  regrese a la pantalla anterior
-                    navController.popBackStack();
+
+                    // Crear un documento en la colección  reportes por cada planificación creada
+                    Map<String, Object> dataReport = new HashMap<>();
+
+                    dataReport.put("uidPeriodo", ConstantApp.periodo.getUid());
+                    dataReport.put("descriptionPerido", ConstantApp.periodo.getTitle());
+                    dataReport.put("uidCurso", courseCurrent.getUid());
+                    dataReport.put("descriptionCurso", courseCurrent.getName() + " " + courseCurrent.getParallel());
+                    dataReport.put("uidPlanification", documentReference.getId());
+                    dataReport.put("descriptionPlanification", planification.getDetails());
+                    dataReport.put("titlePlanification", planification.getTitle());
+                    dataReport.put("uidTrimestre", trimestreCurrent.getUid());
+                    dataReport.put("descriptionTrimestre", trimestreCurrent.getTitle());
+                    dataReport.put("statusDeleted", false);
+                    dataReport.put("dateCreated", planification.getDateCreated());
+                    dataReport.put("dateCreatedTimestamp", planification.getTimestamp());
+                    dataReport.put("details_planification", new ArrayList<>());
+
+                    db.collection("reportes")
+                            .add(dataReport)
+                            .addOnSuccessListener(documentReference1 -> {
+                                Log.i("TAG Reporte", "DocumentSnapshot added with ID: " + documentReference1.getId());
+                                Toast.makeText(getContext(), "Reporte guardado", Toast.LENGTH_SHORT).show();
+                                //  regrese a la pantalla anterior
+                                navController.popBackStack();
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(getContext(), "Error al guardar el reporte", Toast.LENGTH_SHORT).show();
+                            });
+
+
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(getContext(), "Error al guardar la planificación", Toast.LENGTH_SHORT).show();

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.planificaciones.R;
 import com.app.planificaciones.models.Course;
 import com.app.planificaciones.models.Planification;
+import com.app.planificaciones.util.ConstantApp;
 
 import java.util.List;
 
@@ -104,6 +105,14 @@ public class AdapterPlanning extends RecyclerView.Adapter<AdapterPlanning.ViewHo
 
             textTitle.setText(course.getTitle());
             textDescription.setText(course.getDateCreated());
+
+            if (ConstantApp.isAdmin) {
+                btnReview.setText("Revisar");
+            } else {
+                btnReview.setText("Subir");
+            }
+
+
         }
 
 

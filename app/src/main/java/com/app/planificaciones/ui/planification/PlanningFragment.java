@@ -48,6 +48,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class PlanningFragment extends Fragment implements View.OnClickListener {
@@ -184,6 +185,12 @@ public class PlanningFragment extends Fragment implements View.OnClickListener {
                                 planning.setTimestampDate(timestamp.toString());
                             }
 
+                            // recuperar los detalles de cada planificacion
+                            List<Map<String, Object>> list = (List<Map<String, Object>>) documentSnapshot.get("details_planification");
+                            if (list != null) {
+                                planning.setDetailsPlanification(list);
+                            }// si es details_planification es null, la lista ya esta inicializada como vacia
+
                             // Toast.makeText(getContext(), "timestamp: " + planning.getTimestampDate() + planifications.size(), Toast.LENGTH_SHORT).show();
                             planning.setUid(documentSnapshot.getId());
                             // Log.i("Planning", planning.getTitle());
@@ -253,8 +260,8 @@ public class PlanningFragment extends Fragment implements View.OnClickListener {
             // Pasar el objeto como argumento
             bundle.putSerializable("planification", planification);
 
-
-            navController.navigate(R.id.nav_review_planning, bundle);
+            int idNav = ConstantApp.isAdmin ? R.id.nav_review_planning : R.id.nav_upload_planning;
+            navController.navigate(idNav, bundle);
 
 
         });

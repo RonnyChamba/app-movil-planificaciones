@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         FirebaseUser user = mAuth.getCurrentUser();
 
                         final String displayName = user == null ? "" : user.getDisplayName();
+
                         //Toast.makeText(getBaseContext(), "Bienvenido " + displayName, Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(this, HomeActivity.class);

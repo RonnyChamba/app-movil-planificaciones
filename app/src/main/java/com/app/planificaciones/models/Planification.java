@@ -2,6 +2,7 @@ package com.app.planificaciones.models;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,9 +22,9 @@ public class Planification implements Serializable {
     private String title;
     private String week;
 
-    private List<Map<String, Object>> detail_planification;
+    private List<Map<String, Object>> detailsPlanification = new ArrayList<>();
 
-    private List<Map<String, Object>> resources;
+    private List<Map<String, Object>> resources = new ArrayList<>();
 
     public Planification() {
 
@@ -94,12 +95,12 @@ public class Planification implements Serializable {
         this.week = week;
     }
 
-    public List<Map<String, Object>> getDetail_planification() {
-        return detail_planification;
+    public List<Map<String, Object>> getDetailsPlanification() {
+        return detailsPlanification;
     }
 
-    public void setDetail_planification(List<Map<String, Object>> detail_planification) {
-        this.detail_planification = detail_planification;
+    public void setDetailsPlanification(List<Map<String, Object>> detailsPlanification) {
+        this.detailsPlanification = detailsPlanification;
     }
 
     public List<Map<String, Object>> getResources() {
