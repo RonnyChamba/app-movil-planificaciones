@@ -28,21 +28,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.planificaciones.R;
 import com.app.planificaciones.adapters.AdapterDetailRevieTeacherPlanning;
-import com.app.planificaciones.adapters.AdapterReviewDetailPlanning;
 import com.app.planificaciones.databinding.FragmentReviewDetailPlanificationBinding;
 import com.app.planificaciones.models.DetailsPlanification;
 import com.app.planificaciones.models.ModelItemDetail;
+import com.app.planificaciones.models.Planification;
 import com.app.planificaciones.util.ConstantApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class ReviewDetailPlanification extends Fragment {
 
@@ -62,11 +64,15 @@ public class ReviewDetailPlanification extends Fragment {
 
     private TextView txtStatusDetailPlanification;
 
+    private FirebaseUser user;
+
     private Button btnApproveDetailPlanification;
 
 //    private List<DetailsPlanification> detailsPlanifications = new ArrayList<>();
 
     private List<ModelItemDetail> itemDetails = new ArrayList<>();
+
+    private Context context;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -76,6 +82,9 @@ public class ReviewDetailPlanification extends Fragment {
         binding = FragmentReviewDetailPlanificationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         setHasOptionsMenu(true);
+
+        context = getContext();
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         setBindingWidgets();
         db = FirebaseFirestore.getInstance();
@@ -95,24 +104,112 @@ public class ReviewDetailPlanification extends Fragment {
 
     private void setTitleFragment() {
 
+        // set title for the action bar dynamically
+        ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle("Detalle Planificación");
+        }
+
+        if (ConstantApp.isAdmin) initWhenIsAdminUser();
+        else initWhenIsNormalUser();
+
+        // verificar si es usuario o admin
+        // si es admin: llega ya la lista de detalles de planificaciones a mostrar
+        // si es usuario: llega solo llega la planificacion, toca consultar los detalles de planificacion
+
+
+    }
+
+    private void initWhenIsNormalUser() {
+
         // Get the Bundle of arguments
         Bundle arguments = getArguments();
+
+        if (arguments != null && arguments.containsKey("planification")) {
+
+            List<DetailsPlanification> detailsPlanifications = new ArrayList<>();
+
+            Planification planificationCurrent = (Planification) arguments.getSerializable("planification");
+
+            if (planificationCurrent != null) {
+
+
+                db.collection(COLLECTION_NAME)
+                        .whereEqualTo("planification", planificationCurrent.getUid())
+                        .whereEqualTo("teacher.uid", user.getUid())
+                        .get().addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                QuerySnapshot querySnapshot = task.getResult();
+                                if (querySnapshot != null) {
+                                    for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
+
+                                        DetailsPlanification detailsPlanningItem = documentSnapshot.toObject(DetailsPlanification.class);
+                                        if (detailsPlanningItem != null) {
+
+                                            Log.i("Detail Teacher name", detailsPlanningItem.getTeacher() == null ? "ES NULL" : detailsPlanningItem.getTeacher().toString());
+
+                                            // Toast.makeText(getContext(), "timestamp: " + planning.getTimestampDate() + planifications.size(), Toast.LENGTH_SHORT).show();
+                                            detailsPlanningItem.setUid(documentSnapshot.getId());
+                                            Log.i("Planning", detailsPlanningItem.getUid());
+
+                                            // set the planification object
+                                            detailsPlanningItem.setPlanificationObject(planificationCurrent);
+
+                                            detailsPlanifications.add(detailsPlanningItem);
+
+                                        } else Log.i("Details Planificacion item", "ES NULL");
+                                    }
+
+                                    if (detailsPlanifications.size() > 0) {
+
+                                        loadDetailsPlanificationByCurrentPlanification(detailsPlanifications.get(0));
+                                        setValueDefault(detailsPlanifications.get(0));
+                                    } else
+                                        Toast.makeText(context, "No hay planificaciones subida aún", Toast.LENGTH_SHORT).show();
+
+                                    //populatePlaning();
+
+//                                    Toast.makeText(getContext(), " Details Planificacion size: " + detailsPlanifications.size(), Toast.LENGTH_SHORT).show();
+                                    //Log.i("Size planning", planifications.size() + "");
+
+                                } else
+                                    Toast.makeText(getContext(), "No se encontro detalles", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // Maneja el error
+                                Exception exception = task.getException();
+                                if (exception != null) {
+                                    Log.e("Firestore", "Error al obtener documentos planificaciones: " + exception.getMessage());
+
+                                    Toast.makeText(getContext(), "Error al cargar las planificaciones", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+
+            } else Toast.makeText(getContext(), "No hay anda", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    private void initWhenIsAdminUser() {
+
+
+        // Get the Bundle of arguments
+        Bundle arguments = getArguments();
+
         if (arguments != null && arguments.containsKey("detailPlanification")) {
 
             DetailsPlanification planificationCurrent = (DetailsPlanification) arguments.getSerializable("detailPlanification");
             if (planificationCurrent != null) {
 
-                // set title for the action bar dynamically
-                ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
-                if (actionBar != null) {
-                    actionBar.setTitle("Detalle Planificación");
+                loadDetailsPlanificationByCurrentPlanification(planificationCurrent);
 
-                    loadDetailsPlanificationByCurrentPlanification(planificationCurrent);
-                }
                 setValueDefault(planificationCurrent);
 
             } else Toast.makeText(getContext(), "No hay anda", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     private void setValueDefault(DetailsPlanification detailsPlanification) {
@@ -152,6 +249,7 @@ public class ReviewDetailPlanification extends Fragment {
 
             String name = item.get("name") == null ? "NA" : "" + item.get("name");
             String extension = item.get("type") == null ? "NA" : "" + item.get("type");
+            String observation = item.get("observation") == null ? "" : "" + item.get("observation");
 
             // los demas datos no los necesito
 
@@ -160,11 +258,13 @@ public class ReviewDetailPlanification extends Fragment {
             modelItemDetail.setStatus(status);
             modelItemDetail.setName(name);
             modelItemDetail.setType(extension);
+            modelItemDetail.setObservation(observation);
+
             itemDetails.add(modelItemDetail);
         }
         populatePlaning();
 
-        Toast.makeText(getContext(), "size items: " + itemDetails.size(), Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getContext(), "size items: " + itemDetails.size(), Toast.LENGTH_SHORT).show();
 
 
     }
@@ -176,7 +276,7 @@ public class ReviewDetailPlanification extends Fragment {
         recyclerView.setAdapter(adapterPlanning);
 
 
-        // click en el boton del item de cada fila
+        // click en el boton descagar del item de cada fila
         adapterPlanning.setOnButtonClickListener(this::downloadFile);
     }
 
@@ -198,7 +298,7 @@ public class ReviewDetailPlanification extends Fragment {
         islandRef.getDownloadUrl().addOnSuccessListener(uri -> {
             // Got the download URL for 'users/me/profile.png'
 
-            downloadFile2(requireContext(), itemDetail.getName(), itemDetail.getType(), Environment.DIRECTORY_DOCUMENTS, uri.toString());
+            executeDownloadFile(requireContext(), itemDetail.getName(), itemDetail.getType(), Environment.DIRECTORY_DOCUMENTS, uri.toString());
             Toast.makeText(getContext(), "Documento descargado", Toast.LENGTH_SHORT).show();
         }).addOnFailureListener(exception -> {
             // Handle any errors
@@ -206,7 +306,7 @@ public class ReviewDetailPlanification extends Fragment {
         });
     }
 
-    private void downloadFile2(Context context, String fileName, String fileExtension, String destinationDirectory, String url) {
+    private void executeDownloadFile(Context context, String fileName, String fileExtension, String destinationDirectory, String url) {
 
 //        Toast.makeText(getContext(), fileName, Toast.LENGTH_SHORT).show();
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);

@@ -1,6 +1,7 @@
 package com.app.planificaciones.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Teacher implements Serializable {
@@ -17,7 +18,7 @@ public class Teacher implements Serializable {
     private String rol;
     private Boolean status;
     private List<String> titles;
-    private List<String> courses;
+    private List<String> courses = new ArrayList<>();
     private List<Course> coursesList;
 
     public Teacher() {

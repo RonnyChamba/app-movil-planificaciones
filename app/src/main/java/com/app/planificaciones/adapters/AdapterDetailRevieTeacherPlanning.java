@@ -78,6 +78,7 @@ public class AdapterDetailRevieTeacherPlanning extends RecyclerView.Adapter<Adap
 
         private final TextView textDateUpload;
         private final TextView txtStatusDetailPlani;
+        private final TextView txtObservationDetailPlani;
 
         private final Button btnReview;
 
@@ -86,6 +87,7 @@ public class AdapterDetailRevieTeacherPlanning extends RecyclerView.Adapter<Adap
             super(itemView);
             textDateUpload = itemView.findViewById(R.id.txtDateUploadDetails);
             txtStatusDetailPlani = itemView.findViewById(R.id.txtStatusReviewDetail);
+            txtObservationDetailPlani = itemView.findViewById(R.id.txtObserrvationDetails);
             btnReview = itemView.findViewById(R.id.btnDowloadReviewDetail);
 
 
@@ -99,14 +101,14 @@ public class AdapterDetailRevieTeacherPlanning extends RecyclerView.Adapter<Adap
                     }
                 }
             });
-
         }
 
         public void setData(ModelItemDetail data) {
 
 
-            txtStatusDetailPlani.setText(data.isStatus() ? "Aprobada" : "Pendiente");
+            txtStatusDetailPlani.setText(data.isStatus() ? "Si" : "No");
             txtStatusDetailPlani.setTextColor(data.isStatus() ? Color.GREEN : Color.RED);
+            txtObservationDetailPlani.setText(data.getObservation());
             textDateUpload.setText(data.getDateUpload());
         }
 

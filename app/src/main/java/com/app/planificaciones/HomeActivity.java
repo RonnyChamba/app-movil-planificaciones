@@ -108,6 +108,10 @@ public class HomeActivity extends AppCompatActivity {
                             if (teacher != null) {
                                 isAdmin = teacher.getRol() != null && teacher.getRol().equals("ADMIN");
 
+                                ConstantApp.teacher = teacher;
+
+                                //Toast.makeText(this, "couse:" + teacher.getCourses().size(), Toast.LENGTH_SHORT).show();
+
                                 ConstantApp.isAdmin = isAdmin;
                                 hideOrShowMenuOptions(navigationView.getMenu());
                             } else {

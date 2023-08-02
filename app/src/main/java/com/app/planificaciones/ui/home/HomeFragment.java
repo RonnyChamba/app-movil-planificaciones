@@ -172,7 +172,24 @@ public class HomeFragment extends Fragment {
                         if (course != null) {
                             course.setUid(documentSnapshot.getId());
                             Log.i("COURSE", course.getName());
-                            courses.add(course);
+
+
+                            // verificar los cursos que tiene el docente asignado
+                            if (!ConstantApp.isAdmin) {
+
+                                List<String> coursesStudent = ConstantApp.teacher.getCourses();
+
+                                if (coursesStudent != null) {
+
+                                    boolean contains = coursesStudent
+                                            .stream()
+                                            .anyMatch(course.getUid()::equals);
+
+                                    if (contains) courses.add(course);
+                                    else Log.i("COURSE", "NO CONTIENE EL CURSO");
+                                }
+                            } else courses.add(course);
+
 
                         } else Log.i("COURSE", "ES NULL");
                     }
