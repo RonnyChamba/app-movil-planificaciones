@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -78,14 +79,17 @@ public class AdapterDetailRevieTeacherPlanning extends RecyclerView.Adapter<Adap
 
         private final TextView textDateUpload;
         private final TextView txtStatusDetailPlani;
+        private final TextView txtObservationDetailPlani;
 
-        private final Button btnReview;
+        //        private final Button btnReview;
+        private final ImageButton btnReview;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textDateUpload = itemView.findViewById(R.id.txtDateUploadDetails);
             txtStatusDetailPlani = itemView.findViewById(R.id.txtStatusReviewDetail);
+            txtObservationDetailPlani = itemView.findViewById(R.id.txtObserrvationDetails);
             btnReview = itemView.findViewById(R.id.btnDowloadReviewDetail);
 
 
@@ -99,14 +103,14 @@ public class AdapterDetailRevieTeacherPlanning extends RecyclerView.Adapter<Adap
                     }
                 }
             });
-
         }
 
         public void setData(ModelItemDetail data) {
 
 
-            txtStatusDetailPlani.setText(data.isStatus() ? "Aprobada" : "Pendiente");
-            txtStatusDetailPlani.setTextColor(data.isStatus() ? Color.GREEN : Color.RED);
+            txtStatusDetailPlani.setText(data.isStatus() ? "Si" : "No");
+            //txtStatusDetailPlani.setTextColor(data.isStatus() ? Color.GREEN : Color.RED);
+            txtObservationDetailPlani.setText(data.getObservation());
             textDateUpload.setText(data.getDateUpload());
         }
 

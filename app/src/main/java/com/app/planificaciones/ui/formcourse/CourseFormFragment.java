@@ -1,6 +1,7 @@
 package com.app.planificaciones.ui.formcourse;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,8 +35,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class CourseFormFragment extends Fragment implements View.OnClickListener {
 
@@ -45,7 +49,7 @@ public class CourseFormFragment extends Fragment implements View.OnClickListener
 
     private NavController navController;
 
-    private List<Teacher> courses = new ArrayList<>();
+    //private List<Teacher> courses = new ArrayList<>();
 
     private Spinner spTeachers;
 
@@ -60,6 +64,8 @@ public class CourseFormFragment extends Fragment implements View.OnClickListener
 
     private CourseFormViewModel planningViewModel;
 
+    private Context context;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -68,6 +74,8 @@ public class CourseFormFragment extends Fragment implements View.OnClickListener
         binding = FragmentFormCourseBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         setHasOptionsMenu(true);
+
+        context = this.getContext();
 
         db = FirebaseFirestore.getInstance();
         initBinding();
@@ -227,19 +235,38 @@ public class CourseFormFragment extends Fragment implements View.OnClickListener
 
         data.put("tutor", dataTeacher);
 
-
         db.collection(COLLECTION_NAME)
                 .add(data)
                 .addOnSuccessListener(documentReference -> {
 
-                    Toast.makeText(getContext(), "Curso creado con exito", Toast.LENGTH_SHORT).show();
-                    navController.navigateUp();
+                    // crear 3 trimestres para el curso creado
+                    final String uidCourse = documentReference.getId();
+
+                    Toast.makeText(context, "Curso creado con exito", Toast.LENGTH_SHORT).show();
+                    for (int i = 1; i <= 3; i++) {
+                        Map<String, Object> trimestre = new HashMap<>();
+
+                        trimestre.put("course", uidCourse);
+                        trimestre.put("details", "Sin detalles");
+                        trimestre.put("numberWeek", i);
+                        trimestre.put("timestamp", Calendar.getInstance().getTimeInMillis());
+                        trimestre.put("title", "Trimestre " + i);
+
+                        db.collection("weeks")
+                                .add(trimestre)
+                                .addOnSuccessListener(documentReferenceTrimestre -> {
+                                    navController.navigateUp();
+                                })
+                                .addOnFailureListener(e -> {
+
+                                    Toast.makeText(context, "Error al crear el trimestre", Toast.LENGTH_SHORT).show();
+                                });
+
+                    }
+
                 })
                 .addOnFailureListener(e -> {
-
-                    Toast.makeText(getContext(), "Error al crear el curso", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Error al crear el curso", Toast.LENGTH_SHORT).show();
                 });
     }
-
-
 }

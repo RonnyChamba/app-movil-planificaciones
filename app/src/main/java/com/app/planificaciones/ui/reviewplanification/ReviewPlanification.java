@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -58,6 +60,7 @@ public class ReviewPlanification extends Fragment {
 
         binding = FragmentReviewPlanificationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        setHasOptionsMenu(true);
 
         setBindingWidgets();
         db = FirebaseFirestore.getInstance();
@@ -130,11 +133,11 @@ public class ReviewPlanification extends Fragment {
 
                     populatePlaning();
 
-                    Toast.makeText(getContext(), " Details Planificacion size: " + detailsPlanifications.size(), Toast.LENGTH_SHORT).show();
-                    //Log.i("Size planning", planifications.size() + "");
+//                    Toast.makeText(getContext(), " Details Planificacion size: " + detailsPlanifications.size(), Toast.LENGTH_SHORT).show();
+                    Log.i("Size planning", detailsPlanifications.size() + "");
 
                 } else
-                    Toast.makeText(getContext(), "No hay planificaciones para la semana seleccionado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "No hay planificaciones subidas", Toast.LENGTH_SHORT).show();
             } else {
                 // Maneja el error
                 Exception exception = task.getException();
@@ -195,5 +198,24 @@ public class ReviewPlanification extends Fragment {
 //        });
 
 
+    }
+
+    /**
+     * Metodo que se ejecuta cuando se crea el menu de opciones para volver a cargar
+     * el menu y hacerlo dinamico
+     *
+     * @param menu The options menu as last shown or first initialized by
+     *             onCreateOptionsMenu().
+     */
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        menu.clear();
+
+        getActivity().getMenuInflater().inflate(R.menu.planifi, menu);
+
+        MenuItem galleryItem = menu.findItem(R.id.action_new_planning);
+        galleryItem.setVisible(false);
+
+        super.onPrepareOptionsMenu(menu);
     }
 }

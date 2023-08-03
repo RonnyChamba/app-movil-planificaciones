@@ -2,6 +2,8 @@ package com.app.planificaciones.ui.gallery;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -51,6 +53,7 @@ public class GalleryFragment extends Fragment {
         recyclerView = binding.recycleView;
 
         db = FirebaseFirestore.getInstance();
+        setHasOptionsMenu(true);
 
         loadTeachers();
 
@@ -99,6 +102,25 @@ public class GalleryFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    /**
+     * Metodo que se ejecuta cuando se crea el menu de opciones para volver a cargar
+     * el menu y hacerlo dinamico
+     *
+     * @param menu The options menu as last shown or first initialized by
+     *             onCreateOptionsMenu().
+     */
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        menu.clear();
+
+        getActivity().getMenuInflater().inflate(R.menu.planifi, menu);
+
+        MenuItem galleryItem = menu.findItem(R.id.action_new_planning);
+        galleryItem.setVisible(false);
+
+        super.onPrepareOptionsMenu(menu);
     }
 
 }

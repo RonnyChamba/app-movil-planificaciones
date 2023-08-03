@@ -162,6 +162,55 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
         String email = txtEmail.getText().toString();
         String telefono = txtPhone.getText().toString();
 
+
+        if (cedula.isEmpty()) {
+            txtCedula.setError("Cedula requerida");
+            txtCedula.requestFocus();
+            return;
+        } else {
+
+            // validar cedula
+
+            int minLen = 10;
+            if (cedula.length() < minLen) {
+                txtCedula.setError("Cedula debe tener 10 digitos");
+                txtCedula.requestFocus();
+                return;
+            }
+        }
+
+        if (nombres.isEmpty()) {
+            txtName.setError("Nombres requeridos");
+            txtName.requestFocus();
+            return;
+        } else {
+
+            // validar nombres
+
+            int minLen = 3;
+            if (nombres.length() < minLen) {
+                txtName.setError("Nombres debe tener 3 caracteres como minimo");
+                txtName.requestFocus();
+                return;
+            }
+        }
+
+        if (apellidos.isEmpty()) {
+            txtLastName.setError("Apellidos requeridos");
+            txtLastName.requestFocus();
+            return;
+        } else {
+
+            // validar apellidos
+
+            int minLen = 3;
+            if (apellidos.length() < minLen) {
+                txtLastName.setError("Apellidos debe tener 3 caracteres como minimo");
+                txtLastName.requestFocus();
+                return;
+            }
+        }
+
         db.collection(COLLECTION_NAME).document(uidUser).update("dni", cedula,
                 "displayName", nombres,
                 "lastName", apellidos,

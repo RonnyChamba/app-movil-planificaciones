@@ -48,6 +48,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class PlanningFragment extends Fragment implements View.OnClickListener {
@@ -73,7 +74,6 @@ public class PlanningFragment extends Fragment implements View.OnClickListener {
 
     private Course courseCurrent;
 
-    private boolean isAdmin = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -184,6 +184,12 @@ public class PlanningFragment extends Fragment implements View.OnClickListener {
                                 planning.setTimestampDate(timestamp.toString());
                             }
 
+                            // recuperar los detalles de cada planificacion
+                            List<Map<String, Object>> list = (List<Map<String, Object>>) documentSnapshot.get("details_planification");
+                            if (list != null) {
+                                planning.setDetailsPlanification(list);
+                            }// si es details_planification es null, la lista ya esta inicializada como vacia
+
                             // Toast.makeText(getContext(), "timestamp: " + planning.getTimestampDate() + planifications.size(), Toast.LENGTH_SHORT).show();
                             planning.setUid(documentSnapshot.getId());
                             // Log.i("Planning", planning.getTitle());
@@ -220,27 +226,31 @@ public class PlanningFragment extends Fragment implements View.OnClickListener {
         adapterPlanning = new AdapterPlanning(getContext(), planifications);
         recyclerView.setAdapter(adapterPlanning);
 
-        // evento click en el item, ya no se usa
-        /*
+        // evento click en el item
         adapterPlanning.setOnClickListener(view -> {
 
-            Toast.makeText(getContext(), "click", Toast.LENGTH_SHORT).show();
-            // obtene el objeto sobre el cual se hizo click
+            // verificar si el usuario no es a dmin
 
-            Planification course = planifications.get(recyclerView.getChildAdapterPosition(view));
+            if (!ConstantApp.isAdmin) {
 
-            // Crear un Bundle para pasar el curso como argumento
-            Bundle bundle = new Bundle();
+                //Toast.makeText(getContext(), "click", Toast.LENGTH_SHORT).show();
 
-            // Pasar el objeto como argumento
-            bundle.putSerializable("course", course);
+                // obtene el objeto sobre el cual se hizo click
+                Planification course = planifications.get(recyclerView.getChildAdapterPosition(view));
 
-            // Navegar al nuevo fragmento cuando se selecciona un curso, pasando el bundle como argumento
-            //navController.navigate(R.id.nav_planning, bundle);
+                // Crear un Bundle para pasar el curso como argumento
+                Bundle bundle = new Bundle();
 
-        });*/
+                // Pasar el objeto como argumento
+                bundle.putSerializable("planification", course);
 
-        // click en el boton del item
+                // Navegar al nuevo fragmento cuando se selecciona un curso, pasando el bundle como argumento
+                navController.navigate(R.id.nav_review_detail_planning, bundle);
+            }
+
+        });
+
+        // click en el boton subir del item
         adapterPlanning.setOnButtonClickListener(planification -> {
 
             // Aquí se ejecutará el evento cuando se presione el botón en el RecyclerView
@@ -253,8 +263,8 @@ public class PlanningFragment extends Fragment implements View.OnClickListener {
             // Pasar el objeto como argumento
             bundle.putSerializable("planification", planification);
 
-
-            navController.navigate(R.id.nav_review_planning, bundle);
+            int idNav = ConstantApp.isAdmin ? R.id.nav_review_planning : R.id.nav_upload_planning;
+            navController.navigate(idNav, bundle);
 
 
         });

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Planificaciones</string>
 
-    <string name="title_app">PLANIFICACIONES CURRICULARES</string>
+    <string name="title_app">“DR. LUIS AVEIGA BARBERÁN”</string>
 
     <dimen name="size_titles">20sp</dimen>
     <string name="title_activity_home">HomeActivity</string>
@@ -21,4 +21,14 @@
     <string name="menu_planning">Planificación</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="string_mision">Unidad Educativa “Dr. Luis Aveiga Barberán” Misión “Somos una institución educativa pionera, con
+la responsabilidad de dar una formación integral, innovadora, creativa, con pensamiento crítico;
+capaz de trabajar en equipo con la comunidad, respetando el entorno natural y social; para dar
+respuesta a las necesidades del mundo contemporáneo”.</string>
+
+    <string name="string_vision">“Ser una institución con autenticidad pedagógica, con docentes altamente capacitados,
+estudiantes con pensamiento crítico, comprometidos con el desarrollo de la comunidad y el medio
+ambiente, mediante la práctica pertinente, responsable, alcanzando los retos del siglo XXI”</string>
+
 </resources>

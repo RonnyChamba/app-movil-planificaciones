@@ -64,8 +64,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            Toast.makeText(this, "Usuario logeado", Toast.LENGTH_SHORT).show();
-        } else Toast.makeText(this, "Usuario No logeado", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Usuario logeado", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onStart: " + currentUser.getDisplayName());
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+
+        } else {
+
+            //Toast.makeText(this, "Usuario No logeado", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onStart: No logeado");
+        }
+
+        Toast.makeText(this, "Hola", Toast.LENGTH_SHORT).show();
+
     }
 
     private void findWidgets() {
@@ -115,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         FirebaseUser user = mAuth.getCurrentUser();
 
                         final String displayName = user == null ? "" : user.getDisplayName();
+
                         //Toast.makeText(getBaseContext(), "Bienvenido " + displayName, Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(this, HomeActivity.class);

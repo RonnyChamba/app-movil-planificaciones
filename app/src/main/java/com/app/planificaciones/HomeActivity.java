@@ -60,13 +60,13 @@ public class HomeActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         verifySignIn();
-        binding.appBarHome.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        binding.appBarHome.fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
         DrawerLayout drawer = binding.drawerLayout;
 
         navigationView = binding.navView;
@@ -107,6 +107,10 @@ public class HomeActivity extends AppCompatActivity {
                             Teacher teacher = documentSnapshot.toObject(Teacher.class);
                             if (teacher != null) {
                                 isAdmin = teacher.getRol() != null && teacher.getRol().equals("ADMIN");
+
+                                ConstantApp.teacher = teacher;
+
+                                //Toast.makeText(this, "couse:" + teacher.getCourses().size(), Toast.LENGTH_SHORT).show();
 
                                 ConstantApp.isAdmin = isAdmin;
                                 hideOrShowMenuOptions(navigationView.getMenu());
@@ -252,4 +256,8 @@ public class HomeActivity extends AppCompatActivity {
         }
     }*/
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
 }

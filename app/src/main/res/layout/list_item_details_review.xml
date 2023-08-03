@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
+    android:layout_marginBottom="5dp"
     app:cardElevation="4dp">
 
     <LinearLayout
@@ -26,40 +27,38 @@
                 android:text="2023-05-10"
                 android:textSize="15sp" />
 
-            <Button
-                android:id="@+id/btnDowloadReviewDetail"
+            <TextView
+                android:id="@+id/txtObserrvationDetails"
                 android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:text="Alguna observation"
+                android:textSize="15sp" />
+
+
+            <ImageButton
+                android:id="@+id/btnDowloadReviewDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="4dp"
-                android:text="Descargar" />
+                android:src="@drawable/baseline_download_for_offline_24"
+                />
+<!--            <Button-->
+<!--                android:id="@+id/btnDowloadReviewDetail"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="4dp"-->
+
+<!--                />-->
 
             <TextView
                 android:id="@+id/txtStatusReviewDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Aprobado"
+                android:text="Si"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
-
-        <!--        <LinearLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:orientation="horizontal">-->
-        <!--            -->
-        <!--            -->
-        <!--            <EditText-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:text="Alguna observcion"-->
-        <!--                android:layout_height="wrap_content"/>-->
-        <!--            -->
-        <!--            <Button-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:text="Guardar"/>-->
-        <!--            -->
-        <!--        </LinearLayout>-->
 
 
     </LinearLayout>
