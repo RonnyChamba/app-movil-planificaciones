@@ -21,7 +21,7 @@ public class PlanificationDTO implements Serializable {
 
     private List<Map<String, Object>> details_planification = new ArrayList<>();
 
-    private List<Map<String, Object>> resources = new ArrayList<>();
+    private List<Map<String, Object>> resource = new ArrayList<>();
 
     public PlanificationDTO() {
 
@@ -91,11 +91,11 @@ public class PlanificationDTO implements Serializable {
         this.details_planification = details_planification;
     }
 
-    public List<Map<String, Object>> getResources() {
-        return resources;
+    public List<Map<String, Object>> getResource() {
+        return resource;
     }
 
-    public void setResources(List<Map<String, Object>> resources) {
-        this.resources = resources;
+    public void setResource(List<Map<String, Object>> resource) {
+        this.resource = resource;
     }
 }

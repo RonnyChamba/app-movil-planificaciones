@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private FirebaseAuth mAuth;
 
-    private ActivityMainBinding binding;
+    private ActivityMainBinding  binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
