@@ -218,10 +218,10 @@ public class ReviewDetailPlanification extends Fragment {
         Map<String, Object> teacher = detailsPlanification.getTeacher();
         if (teacher != null) {
 
-            String fullName = teacher.get("fullName") == null ? "Docente: NA" : "Docente: " + teacher.get("fullName");
+            String fullName = teacher.get("fullName") == null ? "No asignado" : "" + teacher.get("fullName");
             txtTeacher.setText(fullName);
 
-            txtStatusDetailPlanification.setText("Estado: " + (detailsPlanification.isStatus() ? "Aprobado" : "Pendiente"));
+            txtStatusDetailPlanification.setText((detailsPlanification.isStatus() ? "Aprobado" : "Pendiente"));
 //            btnApproveDetailPlanification.setText(
 //                    detailsPlanification.isStatus() ? "Rechazar" : "Aprobar");
 
@@ -249,7 +249,11 @@ public class ReviewDetailPlanification extends Fragment {
 
             String name = item.get("name") == null ? "NA" : "" + item.get("name");
             String extension = item.get("type") == null ? "NA" : "" + item.get("type");
-            String observation = item.get("observation") == null ? "" : "" + item.get("observation");
+
+
+            String observation = item.get("observation") == null ? ""
+                    : "" + item.get("observation");
+
 
             // los demas datos no los necesito
 
@@ -258,13 +262,13 @@ public class ReviewDetailPlanification extends Fragment {
             modelItemDetail.setStatus(status);
             modelItemDetail.setName(name);
             modelItemDetail.setType(extension);
-            modelItemDetail.setObservation(observation);
+            modelItemDetail.setObservation(observation.equals("") ? "Sin Observación" : observation);
 
             itemDetails.add(modelItemDetail);
         }
         populatePlaning();
 
-       // Toast.makeText(getContext(), "size items: " + itemDetails.size(), Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getContext(), "size items: " + itemDetails.size(), Toast.LENGTH_SHORT).show();
 
 
     }

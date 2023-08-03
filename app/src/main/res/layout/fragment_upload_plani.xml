@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Planificación:"
+            android:text="Título:"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -70,8 +70,9 @@
 
             <Button
                 android:id="@+id/btnFile"
-                android:layout_width="125dp"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/baseline_file_upload_24"
                 android:text="Seleccionar" />
 
         </LinearLayout>
@@ -88,7 +89,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/color_base"
+        android:textColor="#000"
+        android:textSize="18dp"
         android:text="Subir Planificación" />
 
 </LinearLayout>

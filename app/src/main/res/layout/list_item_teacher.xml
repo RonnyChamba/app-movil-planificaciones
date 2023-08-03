@@ -17,7 +17,7 @@
             android:id="@+id/imageView"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:src="@drawable/ic_launcher_background" />
+            android:src="@drawable/teacher_icon_item" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,6 +36,7 @@
                 android:id="@+id/item_dni_teacher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/baseline_credit_card_24"
                 android:text="1723774648"
                 android:textSize="14sp" />
 
@@ -51,14 +52,16 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:drawableLeft="@drawable/baseline_local_phone_24"
                     android:text="0981806210" />
+
                 <TextView
                     android:id="@+id/item_status_teacher"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:layout_marginEnd="5dp"
-                    android:layout_height="wrap_content"
                     android:text="Si" />
 
 

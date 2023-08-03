@@ -12,86 +12,86 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
         android:textAlignment="center"
         android:textSize="20sp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Email"
         android:layout_marginTop="10dp"
-        />
+        android:text="Email" />
 
     <EditText
         android:id="@+id/txtEmail"
-        android:editable="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/baseline_email_24"
+        android:editable="false"
 
         />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cédula"
         android:layout_marginTop="5dp"
-        />
+        android:text="Cédula" />
 
     <EditText
         android:id="@+id/txtCedula"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
-
+        android:drawableLeft="@drawable/baseline_credit_card_24"
+        android:inputType="phone" />
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nombres"
         android:layout_marginTop="5dp"
-        />
+        android:text="Nombres" />
 
     <EditText
         android:id="@+id/txtName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:drawableLeft="@drawable/baseline_perm_identity_24" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Apellidos"
         android:layout_marginTop="5dp"
-        />
+        android:text="Apellidos" />
 
     <EditText
         android:id="@+id/txtLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:drawableLeft="@drawable/baseline_perm_identity_24" />
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="Teléfono"
-        />
+        android:text="Teléfono" />
 
     <EditText
         android:id="@+id/txtPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:drawableLeft="@drawable/baseline_local_phone_24"
+        android:inputType="phone" />
 
 
     <Button
         android:id="@+id/btnTest"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="Actualizar Datos" />
+        android:backgroundTint="@color/color_base"
+        android:text="Actualizar Datos"
+        android:textColor="@color/color_base_text" />
 
 </LinearLayout>

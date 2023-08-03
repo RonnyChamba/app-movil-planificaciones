@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
+    android:layout_marginBottom="5dp"
     app:cardElevation="4dp">
 
     <LinearLayout
@@ -34,13 +35,21 @@
                 android:text="Alguna observation"
                 android:textSize="15sp" />
 
-            <Button
+
+            <ImageButton
                 android:id="@+id/btnDowloadReviewDetail"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
                 android:layout_marginHorizontal="4dp"
-                android:text="Descargar" />
+                android:src="@drawable/baseline_download_for_offline_24"
+                />
+<!--            <Button-->
+<!--                android:id="@+id/btnDowloadReviewDetail"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="4dp"-->
+
+<!--                />-->
 
             <TextView
                 android:id="@+id/txtStatusReviewDetail"

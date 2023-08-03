@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -80,7 +81,8 @@ public class AdapterDetailRevieTeacherPlanning extends RecyclerView.Adapter<Adap
         private final TextView txtStatusDetailPlani;
         private final TextView txtObservationDetailPlani;
 
-        private final Button btnReview;
+        //        private final Button btnReview;
+        private final ImageButton btnReview;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -107,7 +109,7 @@ public class AdapterDetailRevieTeacherPlanning extends RecyclerView.Adapter<Adap
 
 
             txtStatusDetailPlani.setText(data.isStatus() ? "Si" : "No");
-            txtStatusDetailPlani.setTextColor(data.isStatus() ? Color.GREEN : Color.RED);
+            //txtStatusDetailPlani.setTextColor(data.isStatus() ? Color.GREEN : Color.RED);
             txtObservationDetailPlani.setText(data.getObservation());
             textDateUpload.setText(data.getDateUpload());
         }

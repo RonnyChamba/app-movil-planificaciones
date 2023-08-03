@@ -133,11 +133,11 @@ public class ReviewPlanification extends Fragment {
 
                     populatePlaning();
 
-                    Toast.makeText(getContext(), " Details Planificacion size: " + detailsPlanifications.size(), Toast.LENGTH_SHORT).show();
-                    //Log.i("Size planning", planifications.size() + "");
+//                    Toast.makeText(getContext(), " Details Planificacion size: " + detailsPlanifications.size(), Toast.LENGTH_SHORT).show();
+                    Log.i("Size planning", detailsPlanifications.size() + "");
 
                 } else
-                    Toast.makeText(getContext(), "No hay planificaciones para la semana seleccionado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "No hay planificaciones subidas", Toast.LENGTH_SHORT).show();
             } else {
                 // Maneja el error
                 Exception exception = task.getException();
