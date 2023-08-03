@@ -83,6 +83,11 @@
         android:drawableLeft="@drawable/baseline_local_phone_24"
         android:inputType="phone" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Al actualizar los datos, tendrá que iniciar sesión nuevamente." />
 
     <Button
         android:id="@+id/btnTest"

@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d(TAG, "onStart: No logeado");
         }
 
-        Toast.makeText(this, "Hola", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "Hola", Toast.LENGTH_SHORT).show();
 
     }
 
