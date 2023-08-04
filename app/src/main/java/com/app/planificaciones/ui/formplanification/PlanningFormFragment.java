@@ -16,40 +16,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.planificaciones.R;
-import com.app.planificaciones.adapters.AdapterPlanning;
 import com.app.planificaciones.databinding.FragmentFormPlaniBinding;
-import com.app.planificaciones.databinding.FragmentPlanningBinding;
 import com.app.planificaciones.models.Course;
-import com.app.planificaciones.models.Planification;
 import com.app.planificaciones.models.PlanificationDTO;
 import com.app.planificaciones.models.Trimestre;
 import com.app.planificaciones.util.ConstantApp;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -57,7 +44,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -207,7 +193,7 @@ public class PlanningFormFragment extends Fragment implements View.OnClickListen
             String extension = getFileType(fileUri);
             resources.put("name", name);
             resources.put("type", extension);
-            planification.getResources().add(resources);
+            planification.getResource().add(resources);
         }
 
         db.collection(COLLECTION_NAME)

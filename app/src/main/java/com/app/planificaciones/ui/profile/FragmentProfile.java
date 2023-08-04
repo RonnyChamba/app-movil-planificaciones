@@ -229,6 +229,13 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
                 profileViewModel.getTelefono().postValue(telefono);
 
                 Toast.makeText(getActivity(), "Datos actualizados", Toast.LENGTH_SHORT).show();
+
+                FirebaseAuth.getInstance().signOut();
+                // redirigir al login
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                startActivity(intent);
+                onDestroyView();
+
             } else {
                 String error = task.getException().getMessage();
                 Toast.makeText(getActivity(), "Error: " + error, Toast.LENGTH_SHORT).show();

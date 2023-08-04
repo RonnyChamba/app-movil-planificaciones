@@ -53,7 +53,7 @@
             android:hint="Ingresa tu correo"
             android:inputType="textEmailAddress"
             android:padding="10dp"
-            android:text="e1718760190@live.uleam.edu.ec"
+            android:text=""
 
             />
 
@@ -63,10 +63,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:autofillHints="Ingrese su contraseña"
-            android:hint="Ingrese tu contraseña"
+            android:hint="Ingresa tu contraseña"
             android:inputType="textPassword"
             android:padding="10dp"
-            android:text="123456" />
+            android:text="" />
 
         <Button
             android:id="@+id/btnSigIn"

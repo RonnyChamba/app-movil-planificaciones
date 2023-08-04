@@ -1,5 +1,6 @@
 package com.app.planificaciones;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -45,6 +46,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private NavController navController;
 
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +62,7 @@ public class HomeActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
+        context = this;
         verifySignIn();
 //        binding.appBarHome.fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -109,6 +113,17 @@ public class HomeActivity extends AppCompatActivity {
                                 isAdmin = teacher.getRol() != null && teacher.getRol().equals("ADMIN");
 
                                 ConstantApp.teacher = teacher;
+
+                                if (!ConstantApp.teacher.getStatus()) {
+
+                                    Toast.makeText(context, "El usuario no esta activo", Toast.LENGTH_SHORT).show();
+                                    FirebaseAuth.getInstance().signOut();
+                                    Intent intent = new Intent(context, MainActivity.class);
+                                    startActivity(intent);
+
+
+                                }
+
 
                                 //Toast.makeText(this, "couse:" + teacher.getCourses().size(), Toast.LENGTH_SHORT).show();
 
